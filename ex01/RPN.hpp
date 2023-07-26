@@ -3,18 +3,17 @@
 #include <iostream>
 #include <stack>
 
-class RPN
-{
-    private:
-            std::string str;
-            std::stack<char> storage;
-    public:
-            RPN(std::string& str);
-            RPN(const RPN& src);
-            RPN& operator=(const RPN& src);
-            ~RPN();
+class RPN {
+private:
+    std::string str;
+    std::stack<std::string> storage;
 
-            void    checker(std::string &str);
-            int     converter(std::string &str); 
+public:
+    RPN(std::string& str);
+    RPN(const RPN& src);
+    RPN& operator=(const RPN& src);
+    ~RPN();
 
+    void checker(std::string& str);
+    void converter(std::string& str);
 };
