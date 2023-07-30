@@ -40,26 +40,18 @@ static int operation(std::stack<std::string>& storage, char op, int& count) {
     std::string second = storage.top();
     storage.pop();
     count--;
-    std::string first;
-
-    for (; count > 0; count--) {
-        first = storage.top() + first;
-        storage.pop();
-    }
+    std::string first = storage.top();
+    storage.pop();
+    count--;
     if (op == '+')
         return strToInt(first) + strToInt(second);
     if (op == '-')
         return strToInt(first) - strToInt(second);
     if (op == '*')
-    {
-        
-    // std::cout << "first: " << strToInt(first) << std::endl;
-    // std::cout << "second: " << strToInt(second) << std::endl;
         return strToInt(first) * (strToInt(second));
-    }
     if (op == '/') {
         if (strToInt(first) != 0)
-            return strToInt(second) / strToInt(first);
+            return strToInt(first) / strToInt(second);
         else
             throw std::runtime_error("You cannot divide by 0");
     }
