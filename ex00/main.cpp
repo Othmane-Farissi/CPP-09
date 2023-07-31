@@ -1,62 +1,68 @@
 #include    "BitcoinExchange.hpp"
 
 void  rateCalculator(std::string& date, double value) {
-    BitcoinExchange db();
+    BitcoinExchange db;
 
     double rate = db.getValue(date);
     if (rate == -1.0)
     {
-        std::cerr << "Error: No exchange rate available for date => "
-			  << date << '\n';
-			continue;
+		throw std::runtime_error("Error: No exchange rate available for this date");
     }
 	
     std::cout << date << " => "
-		  << value << " = " << value * exchangeRate
-		  << '\n';
+		  << value << " = " << value * rate
+		  << std::endl;
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " input_file" << std::endl;
-        return 1;
-    }
-    std::ifstream infile(argv[1]);
+void    parceLine(char *path)
+{
+    std::ifstream infile(path);
     if (!infile) {
-        std::cerr << "Error: could not open file." << std::endl;
-        return 1;
+        throw std::runtime_error("Error: could not open file.");
     }
+    
     std::string line;
-    int i = 0;
-    std::getline(infile, line)
+    std::getline(infile, line);
     while (std::getline(infile, line))
     {
+        try
+        {
         std::istringstream ss(line);
-		std::string date;
-		double val;
-		char del;
+        std::string date;
+        double val;
+        char del;
 
-i       if (!(ss >> date >> del >> val)) {
-			std::cerr << "Error: Unable to parse line" << '\n';
-			continue;
-		}
-
-		if (del != '|') {
-			std::cerr << "Error: Expected delimiter => "
-				  << line << '\n';
-			continue;
-		}
-
-		if (!checkDate(date)) {
-			std::cerr << "Error: bad input => "
-				  << line << '\n';
-			continue;
-		}
-
-		if (!checkValue(val)) {
-			continue;
-		}
+        if (!(ss >> date >> del >> val)) {
+            throw std::runtime_error("Error: can't get line's details");
+        }
+        if (del != '|') {
+            throw std::runtime_error("Error: Expected delimiter");
+        }
+        if (!checkDate(date)) {
+            throw std::runtime_error("Error: bad input ");
+        }
+        if (!checkValue(val)) {
+            throw std::runtime_error("Error: invalid value");
+        }
         rateCalculator(date, val);
+        }
+        catch (std::exception &e)
+        {
+            std::cout << e.what() << std::endl;
+        }
+    }
+}
+int main(int ac, char* av[]) {
+    if (ac != 2) {
+        std::cerr << "Usage: ./btc  (input file) " << std::endl;
+        return 1;
+    }
+    try {
+        parceLine(av[1]);
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
     }
     return 0;
 }
