@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <list>
 
@@ -11,6 +12,8 @@ public:
 
     void displayResults() const;
 
+    void displayListContent(const std::list<int>& container) const ;
+    void displayVectorContent(const std::vector<int>& container) const; 
 private:
     std::vector<int> vecContainer;
     std::list<int> listContainer;

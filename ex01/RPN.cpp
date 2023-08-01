@@ -32,17 +32,12 @@ static std::string intToStr(int number) {
     return ss.str();
 }
 
-static int operation(std::stack<std::string>& storage, char op, int& count) {
-    if (count < 2) {
-        throw std::runtime_error("Insufficient operands for the operation");
-    }
+static int operation(std::stack<std::string>& storage, char op) {
 
     std::string second = storage.top();
     storage.pop();
-    count--;
     std::string first = storage.top();
     storage.pop();
-    count--;
     if (op == '+')
         return strToInt(first) + strToInt(second);
     if (op == '-')
@@ -55,7 +50,6 @@ static int operation(std::stack<std::string>& storage, char op, int& count) {
         else
             throw std::runtime_error("You cannot divide by 0");
     }
-
     throw std::runtime_error("Invalid operator");
 }
 
@@ -67,7 +61,7 @@ static bool is_operator(char c) {
 }
 
 void RPN::checker(std::string& str) {
-    if (!is_operator(str[str.size() - 1]) || is_operator(str[0]))
+    if (!is_operator(str[str.size() - 1]) || is_operator(str[0]) || is_operator(str[1]))
         throw std::runtime_error("syntax error");
     for (size_t i = 0; i < str.size(); i++) {
         if (!isdigit(str[i]) && !is_operator(str[i]))
@@ -77,21 +71,24 @@ void RPN::checker(std::string& str) {
 
 void RPN::converter(std::string& str) {
     checker(str);
-    int count = 0;
     std::string rslt;
 
     for (size_t i = 0; i < str.size(); ++i) {
         char c = str[i];
-        if (std::isspace(c)) {
-            continue;
-        } else if (std::isdigit(c)) {
-            storage.push(std::string(1, c)); 
-        } else {
-            rslt = intToStr(operation(storage, c, count));
-            storage.push(rslt);
+
+        if (std::isdigit(c)) {
+            storage.push(std::string(1, c));
         }
-        count++;
+        else {
+            rslt = intToStr(operation(storage, c));
+            if (i != str.size() - 1)
+                storage.push(rslt);
+        }
     }
+    
+    if (!storage.empty())
+        throw std::runtime_error("Insufficient operands for the operation");
+
     std::cout << rslt << std::endl;
 }
 

@@ -1,11 +1,24 @@
-# Makefile
+SRC = main.cpp BitcoinExchange.cpp
+
 CC = g++
-CFLAGS = -Wall -Wextra -std=c++98
 
-all: btc
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98
 
-btc: main.cpp BitcoinExchange.cpp
-	$(CC) $(CFLAGS) -o btc main.cpp BitcoinExchange.cpp
+OBJ = $(SRC:.cpp=.o)
 
-clean:
-	rm -f btc
+NAME = BitcoinExchange
+
+all : $(NAME)
+
+$(NAME) : $(OBJ)
+		$(CC) $(CPPFLAGS) $(OBJ) -o $(NAME)
+
+clean :
+		$(RM) $(OBJ)
+
+fclean : clean
+		$(RM) $(NAME)
+
+re : fclean $(NAME)
+
+.PHONY : all clean fclean re

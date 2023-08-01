@@ -2,7 +2,7 @@
 
 
 BitcoinExchange::BitcoinExchange() {
-       std::ifstream dBase("date.csv");
+       std::ifstream dBase("data.csv");
        std::string str;
        std::getline(dBase, str);
        while (std::getline(dBase, str))
@@ -13,7 +13,8 @@ BitcoinExchange::BitcoinExchange() {
 		
         std::string date = str.substr(0, delPos);
 		std::string tmp = str.substr(delPos + 1);
-
+        // std::cout << "-->"<<date << std::endl;
+        // std::cout << "-->"<<tmp << std::endl;
         double rate;
         std::istringstream rss(tmp);
         if (!(rss >> rate))
@@ -41,7 +42,6 @@ BitcoinExchange::~BitcoinExchange() {}
 
 double    BitcoinExchange::getValue(std::string & date)
 {
-    std::cout << date << std::endl;
 	std::map<std::string, double>::iterator it = bitDb.lower_bound(date);
 	if (it != bitDb.end()) {
 		return it->second;

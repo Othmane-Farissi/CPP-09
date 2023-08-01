@@ -1,7 +1,6 @@
 #include    "BitcoinExchange.hpp"
 
-void  rateCalculator(std::string& date, double value) {
-    BitcoinExchange db;
+void  rateCalculator(std::string& date, double value, BitcoinExchange& db) {
 
     double rate = db.getValue(date);
     if (rate == -1.0)
@@ -16,6 +15,8 @@ void  rateCalculator(std::string& date, double value) {
 
 void    parceLine(char *path)
 {
+    BitcoinExchange db;
+
     std::ifstream infile(path);
     if (!infile) {
         throw std::runtime_error("Error: could not open file.");
@@ -33,7 +34,7 @@ void    parceLine(char *path)
         char del;
 
         if (!(ss >> date >> del >> val)) {
-            throw std::runtime_error("Error: can't get line's details");
+            throw std::runtime_error("Error: can't parce line");
         }
         if (del != '|') {
             throw std::runtime_error("Error: Expected delimiter");
@@ -44,7 +45,7 @@ void    parceLine(char *path)
         if (!checkValue(val)) {
             throw std::runtime_error("Error: invalid value");
         }
-        rateCalculator(date, val);
+        rateCalculator(date, val, db);
         }
         catch (std::exception &e)
         {
@@ -54,14 +55,12 @@ void    parceLine(char *path)
 }
 int main(int ac, char* av[]) {
     if (ac != 2) {
-        std::cerr << "Usage: ./btc  (input file) " << std::endl;
-        return 1;
+        throw std::runtime_error("Usage: ./btc  (input file) ");
     }
     try {
-        parceLine(av[1]);
+            parceLine(av[1]);
     }
-    catch (std::exception &e)
-    {
+    catch (std::exception &e) {
         std::cout << e.what() << std::endl;
     }
     return 0;
