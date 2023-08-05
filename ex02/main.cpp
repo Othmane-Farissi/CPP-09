@@ -15,7 +15,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::vector<int> values;
+    std::vector<int> vecVal;
+    std::list<int> lstVal;
     for (int i = 1; i < argc; ++i) {
         std::istringstream iss(argv[i]);
         int num;
@@ -23,11 +24,11 @@ int main(int argc, char* argv[]) {
             std::cerr << "Error: Invalid input\n";
             return 1;
         }
-        values.push_back(num);
+        vecVal.push_back(num);
+        lstVal.push_back(num);
     }
 
-    PmergeMe pmerge;
-    pmerge.parseAndSort(values);
+    pMergeMe(vecVal, lstVal);
 
     return 0;
 }
