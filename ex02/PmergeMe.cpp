@@ -88,7 +88,6 @@ void mergeInsertSort(std::list<int>& container) {
     if (container.size() <= 1)
         return;
 
-    // Split the list into two halves
     std::list<int> left;
     std::list<int> right;
     bool addToLeft = true;
