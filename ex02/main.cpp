@@ -2,11 +2,6 @@
 #include <sstream>
 #include <vector>
 
-// print the same sorted sequence in Before and after
-// error print all the sequence
-// add orthodox canonical form to the class
-// check other's implementation
-
 
 
 int main(int argc, char* argv[]) {

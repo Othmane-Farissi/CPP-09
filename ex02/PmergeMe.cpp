@@ -1,135 +1,128 @@
-// pMergeMe.cpp
-
 #include "PmergeMe.hpp"
 #include <iostream>
 #include <algorithm>
 #include <ctime>
 
 void    pMergeMe(std::vector<int> &vecVal,std::list<int> &lstVal) {
-    std::vector<int> vecContainer;
-    std::list<int> listContainer;
+    std::vector<int> vecctr;
+    std::list<int> listctr;
 
-    vecContainer = vecVal;
-    listContainer = lstVal;
+    vecctr = vecVal;
+    listctr = lstVal;
 
-    printBefore(vecContainer);
+    printBefore(vecctr);
 
     clock_t startVec = clock();
-    mergeInsertSort(vecContainer);
+    mergeInsertSort(vecctr);
     clock_t endVec = clock();
 
     clock_t startList = clock();
-    mergeInsertSort(listContainer);
+    mergeInsertSort(listctr);
     clock_t endList = clock();
 
-    printAfter(vecContainer);
+    printAfter(vecctr);
 
-    double timeVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000; // Convert to microseconds
-    double timeList = static_cast<double>(endList - startList) / CLOCKS_PER_SEC * 1000000; // Convert to microseconds
+    double timeVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000;
+    double timeList = static_cast<double>(endList - startList) / CLOCKS_PER_SEC * 1000000;
 
-    std::cout << "Time to process a range of " << vecContainer.size() << " elements with std::vector: " << timeVec << " us\n";
-    std::cout << "Time to process a range of " << listContainer.size() << " elements with std::list: " << timeList << " us\n";
+    std::cout << "Time to process a range of " << vecctr.size() << " elements with std::vector: " << timeVec << " us\n";
+    std::cout << "Time to process a range of " << listctr.size() << " elements with std::list: " << timeList << " us\n";
 }
 
-void printBefore(const std::vector<int>& container) {
+void printBefore(const std::vector<int>& ctr) {
     std::cout << "Before :";
-    for (std::vector<int>::const_iterator it = container.begin(); it != container.end(); ++it) {
+    for (std::vector<int>::const_iterator it = ctr.begin(); it != ctr.end(); ++it) {
         std::cout << " " << *it;
     }
     std::cout << "\n";
 }
 
 
-void printAfter(const std::vector<int>& container) {
+void printAfter(const std::vector<int>& ctr) {
     std::cout << "After:";
-    for (std::vector<int>::const_iterator it = container.begin(); it != container.end(); ++it) {
+    for (std::vector<int>::const_iterator it = ctr.begin(); it != ctr.end(); ++it) {
         std::cout << " " << *it;
     }
     std::cout << "\n";
 }
 
-void mergeInsertSort(std::vector<int>& container) {
-    if (container.size() <= 1)
+void mergeInsertSort(std::vector<int>& ctr) {
+    if (ctr.size() <= 1)
         return;
 
-    std::vector<int>::size_type mid = container.size() / 2;
-    std::vector<int> left(container.begin(), container.begin() + mid);
-    std::vector<int> right(container.begin() + mid, container.end());
+    std::vector<int>::size_type mid = ctr.size() / 2;
+    std::vector<int> left(ctr.begin(), ctr.begin() + mid);
+    std::vector<int> right(ctr.begin() + mid, ctr.end());
 
     mergeInsertSort(left);
     mergeInsertSort(right);
 
-    container.clear();
+    ctr.clear();
     std::vector<int>::iterator leftIt = left.begin();
     std::vector<int>::iterator rightIt = right.begin();
 
     while (leftIt != left.end() && rightIt != right.end()) {
         if (*leftIt < *rightIt) {
-            container.push_back(*leftIt);
+            ctr.push_back(*leftIt);
             ++leftIt;
         } else {
-            container.push_back(*rightIt);
+            ctr.push_back(*rightIt);
             ++rightIt;
         }
     }
 
     while (leftIt != left.end()) {
-        container.push_back(*leftIt);
+        ctr.push_back(*leftIt);
         ++leftIt;
     }
 
     while (rightIt != right.end()) {
-        container.push_back(*rightIt);
+        ctr.push_back(*rightIt);
         ++rightIt;
     }
 }
 
-void mergeInsertSort(std::list<int>& container) {
-    if (container.size() <= 1)
+void mergeInsertSort(std::list<int>& ctr) {
+    if (ctr.size() == 1)
         return;
 
     std::list<int> left;
     std::list<int> right;
-    bool addToLeft = true;
+    bool flag = true;
 
-    for (std::list<int>::iterator it = container.begin(); it != container.end(); ++it) {
-        if (addToLeft) {
+    for (std::list<int>::iterator it = ctr.begin(); it != ctr.end(); ++it) {
+        if (flag) {
             left.push_back(*it);
         } else {
             right.push_back(*it);
         }
-        addToLeft = !addToLeft;
+        flag = !flag;
     }
 
-    // Recursively sort the two halves
     mergeInsertSort(left);
     mergeInsertSort(right);
 
-    // Merge the sorted halves
-    container.clear();
+    ctr.clear();
     std::list<int>::iterator leftIt = left.begin();
     std::list<int>::iterator rightIt = right.begin();
 
     while (leftIt != left.end() && rightIt != right.end()) {
         if (*leftIt < *rightIt) {
-            container.push_back(*leftIt);
+            ctr.push_back(*leftIt);
             ++leftIt;
         } else {
-            container.push_back(*rightIt);
+            ctr.push_back(*rightIt);
             ++rightIt;
         }
     }
 
     while (leftIt != left.end()) {
-        container.push_back(*leftIt);
+        ctr.push_back(*leftIt);
         ++leftIt;
     }
 
     while (rightIt != right.end()) {
-        container.push_back(*rightIt);
+        ctr.push_back(*rightIt);
         ++rightIt;
     }
 }
-
-
-

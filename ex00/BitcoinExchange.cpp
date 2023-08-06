@@ -13,8 +13,6 @@ BitcoinExchange::BitcoinExchange() {
 		
         std::string date = str.substr(0, delPos);
 		std::string tmp = str.substr(delPos + 1);
-        // std::cout << "-->"<<date << std::endl;
-        // std::cout << "-->"<<tmp << std::endl;
         double rate;
         std::istringstream rss(tmp);
         if (!(rss >> rate))
@@ -74,6 +72,13 @@ bool    checkDate(std::string &date) {
 	if (m == 4 || m == 6 || m == 9 || m == 11) {
 		if (d > 30)
 			return false;
+        bool leap_y = ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
+        if (m == 2) {
+            if (leap_y)
+                return d <= 29;
+            else
+                return d <= 28;
+        }
     }
 	return true;
 }
