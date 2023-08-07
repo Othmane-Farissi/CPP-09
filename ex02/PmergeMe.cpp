@@ -3,30 +3,33 @@
 #include <algorithm>
 #include <ctime>
 
+//integer sequence error
+///PmergeMe 34 5+88 && /PmergeMe 34 5f88 55
+
 void    pMergeMe(std::vector<int> &vecVal,std::list<int> &lstVal) {
-    std::vector<int> vecctr;
-    std::list<int> listctr;
+    std::vector<int> vecCtr;
+    std::list<int> listCtr;
 
-    vecctr = vecVal;
-    listctr = lstVal;
+    vecCtr = vecVal;
+    listCtr = lstVal;
 
-    printBefore(vecctr);
+    printBefore(vecCtr);
 
     clock_t startVec = clock();
-    mergeInsertSort(vecctr);
+    mergeInsertSort(vecCtr);
     clock_t endVec = clock();
 
     clock_t startList = clock();
-    mergeInsertSort(listctr);
+    mergeInsertSort(listCtr);
     clock_t endList = clock();
 
-    printAfter(vecctr);
+    printAfter(vecCtr);
 
     double timeVec = static_cast<double>(endVec - startVec) / CLOCKS_PER_SEC * 1000000;
     double timeList = static_cast<double>(endList - startList) / CLOCKS_PER_SEC * 1000000;
 
-    std::cout << "Time to process a range of " << vecctr.size() << " elements with std::vector: " << timeVec << " us\n";
-    std::cout << "Time to process a range of " << listctr.size() << " elements with std::list: " << timeList << " us\n";
+    std::cout << "Time to process a range of " << vecCtr.size() << " elements with std::vector: " << timeVec << " us\n";
+    std::cout << "Time to process a range of " << listCtr.size() << " elements with std::list: " << timeList << " us\n";
 }
 
 void printBefore(const std::vector<int>& ctr) {
@@ -36,7 +39,6 @@ void printBefore(const std::vector<int>& ctr) {
     }
     std::cout << "\n";
 }
-
 
 void printAfter(const std::vector<int>& ctr) {
     std::cout << "After:";

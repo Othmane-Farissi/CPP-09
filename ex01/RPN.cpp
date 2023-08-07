@@ -34,6 +34,8 @@ static std::string intToStr(int number) {
 
 static int operation(std::stack<std::string>& storage, char op) {
 
+    if (storage.size() < 2) 
+        throw std::runtime_error("Insufficient operands for the operation");
     std::string second = storage.top();
     storage.pop();
     std::string first = storage.top();
@@ -61,10 +63,11 @@ static bool is_operator(char c) {
 }
 
 void RPN::checker(std::string& str) {
+
     if (!is_operator(str[str.size() - 1]) || is_operator(str[0]) || is_operator(str[1]))
         throw std::runtime_error("syntax error");
     for (size_t i = 0; i < str.size(); i++) {
-        if (!isdigit(str[i]) && !is_operator(str[i]))
+        if ((!isdigit(str[i]) && !is_operator(str[i])))
             throw std::runtime_error("syntax error");
     }
 }

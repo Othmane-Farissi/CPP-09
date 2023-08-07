@@ -32,9 +32,13 @@ void    parceLine(char *path)
         std::string date;
         double val;
         char del;
+        char other;
 
         if (!(ss >> date >> del >> val)) {
             throw std::runtime_error("Error: can't parce line");
+        }
+        if (ss >> other) {
+            throw std::runtime_error("Error: bad input");
         }
         if (del != '|') {
             throw std::runtime_error("Error: Expected delimiter");
@@ -54,10 +58,10 @@ void    parceLine(char *path)
     }
 }
 int main(int ac, char* av[]) {
-    if (ac != 2) {
-        throw std::runtime_error("Usage: ./btc  (input file) ");
-    }
-    try {
+   try {
+        if (ac != 2) {
+            throw std::runtime_error("Usage: ./btc  (input file) ");
+        }
             parceLine(av[1]);
     }
     catch (std::exception &e) {

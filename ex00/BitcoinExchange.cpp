@@ -51,35 +51,41 @@ double    BitcoinExchange::getValue(std::string & date)
 }
 
 
-
 bool    checkDate(std::string &date) {
     size_t posOne = date.find('-');
     size_t posTwo = date.find('-', posOne + 1);
 
-    if (posOne == posTwo || posOne == std::string::npos)
+    if (posOne == std::string::npos || posOne == posTwo)
         return false;
-
     std::string s1 = date.substr(0, posOne);
     std::string s2 = date.substr(posOne + 1, posTwo - posOne - 1); 
     std::string s3 = date.substr(posTwo + 1);
+
     int y, m, d;
-    std::istringstream yStr(s1), mStr(s2), dStr(s3);
-    if (!(yStr >> y) || !(mStr >> m) || !(dStr >> d))
+    std::istringstream yStr(s1), mStr(s2), dStr(s3), other;
+    if (s1.size() != 4)
         return false;
-    if (y < 0 || m < 1 || m > 12 || d < 1 || d > 31)
+    if (!(yStr >> y) || !(mStr >>m) || !(dStr >> d) || !yStr.eof()|| !mStr.eof()|| !dStr.eof())
+        return false;
+    if (y < 2009 || m < 1 || m > 12 || d < 1 || d > 31)
 		return false;
 
 	if (m == 4 || m == 6 || m == 9 || m == 11) {
 		if (d > 30)
 			return false;
-        bool leap_y = ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
-        if (m == 2) {
-            if (leap_y)
-                return d <= 29;
-            else
-                return d <= 28;
-        }
+  
     }
+    bool leap_y = ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
+          if (m == 2) {
+            if (leap_y)
+            {
+                if (d > 29)
+                    return false;
+            }
+            else
+                if (d > 28)
+                    return false;
+        }
 	return true;
 }
 
