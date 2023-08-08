@@ -2,7 +2,7 @@ SRC = main.cpp RPN.cpp
 
 CC = g++
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 
 OBJ = $(SRC:.cpp=.o)
 

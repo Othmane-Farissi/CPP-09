@@ -1,4 +1,6 @@
 #include "RPN.hpp"
+#include <algorithm>
+#include <cctype>
 #include <sstream>
 #include <cstdlib>
 
@@ -47,8 +49,8 @@ static int operation(std::stack<std::string>& storage, char op) {
     if (op == '*')
         return strToInt(first) * (strToInt(second));
     if (op == '/') {
-        if (strToInt(first) != 0)
-            return strToInt(first) / strToInt(second);
+        if (strToInt(second) != 0)
+            return  strToInt(first) /strToInt(second);
         else
             throw std::runtime_error("You cannot divide by 0");
     }
@@ -64,10 +66,11 @@ static bool is_operator(char c) {
 
 void RPN::checker(std::string& str) {
 
+    str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
     if (!is_operator(str[str.size() - 1]) || is_operator(str[0]) || is_operator(str[1]))
         throw std::runtime_error("syntax error");
     for (size_t i = 0; i < str.size(); i++) {
-        if ((!isdigit(str[i]) && !is_operator(str[i])))
+        if (!isdigit(str[i]) && !is_operator(str[i]))
             throw std::runtime_error("syntax error");
     }
 }

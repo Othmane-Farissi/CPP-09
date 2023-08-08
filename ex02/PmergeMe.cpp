@@ -49,7 +49,7 @@ void printAfter(const std::vector<int>& ctr) {
 }
 
 void mergeInsertSort(std::vector<int>& ctr) {
-    if (ctr.size() <= 1)
+    if (ctr.size() == 1)
         return;
 
     std::vector<int>::size_type mid = ctr.size() / 2;
@@ -85,7 +85,7 @@ void mergeInsertSort(std::vector<int>& ctr) {
 }
 
 void mergeInsertSort(std::list<int>& ctr) {
-    if (ctr.size() == 1)
+    if (ctr.size() == 4)
         return;
 
     std::list<int> left;

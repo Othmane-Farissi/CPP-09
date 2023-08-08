@@ -63,11 +63,11 @@ bool    checkDate(std::string &date) {
 
     int y, m, d;
     std::istringstream yStr(s1), mStr(s2), dStr(s3), other;
-    if (s1.size() != 4)
+    if (s1.size() != 4 || s2.size() != 2 || s3.size() != 2)
         return false;
     if (!(yStr >> y) || !(mStr >>m) || !(dStr >> d) || !yStr.eof()|| !mStr.eof()|| !dStr.eof())
         return false;
-    if (y < 2009 || m < 1 || m > 12 || d < 1 || d > 31)
+    if (y < 2009 || m < 1 || d < 2 || m < 1 || m > 12 || d < 1 || d > 31)
 		return false;
 
 	if (m == 4 || m == 6 || m == 9 || m == 11) {
