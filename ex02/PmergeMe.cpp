@@ -3,8 +3,15 @@
 #include <algorithm>
 #include <ctime>
 
-//integer sequence error
-///PmergeMe 34 5+88 && /PmergeMe 34 5f88 55
+template<typename Container>
+void insertSort(Container& ctr) {
+    for (typename Container::iterator it = ctr.begin(); it != ctr.end(); ++it) {
+        typename Container::iterator insertPos = it;
+        while (insertPos != ctr.begin() && *it < *(--insertPos)) {
+            std::swap(*it, *insertPos);
+        }
+    }
+}
 
 void    pMergeMe(std::vector<int> &vecVal,std::list<int> &lstVal) {
     std::vector<int> vecCtr;
@@ -49,8 +56,10 @@ void printAfter(const std::vector<int>& ctr) {
 }
 
 void mergeInsertSort(std::vector<int>& ctr) {
-    if (ctr.size() == 1)
+    if (ctr.size() <= 4) {
+        insertSort(ctr);
         return;
+    }
 
     std::vector<int>::size_type mid = ctr.size() / 2;
     std::vector<int> left(ctr.begin(), ctr.begin() + mid);
@@ -85,8 +94,10 @@ void mergeInsertSort(std::vector<int>& ctr) {
 }
 
 void mergeInsertSort(std::list<int>& ctr) {
-    if (ctr.size() == 4)
+    if (ctr.size() <= 4) {
+        insertSort(ctr);
         return;
+    }
 
     std::list<int> left;
     std::list<int> right;
